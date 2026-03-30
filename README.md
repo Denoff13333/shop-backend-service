@@ -1,6 +1,15 @@
+# Результаты работы:
+<img width="1280" height="944" alt="image" src="https://github.com/user-attachments/assets/83bf3608-5480-4c19-b246-49640bc8c1c4" />
+<img width="725" height="306" alt="image" src="https://github.com/user-attachments/assets/1ae67201-f5a3-4b93-a4e5-f8688aff39e7" />
+<img width="1280" height="771" alt="image" src="https://github.com/user-attachments/assets/91f54cba-329d-479b-be49-e9c793c1268a" />
+<img width="1280" height="943" alt="image" src="https://github.com/user-attachments/assets/e78608c7-30d3-4e88-989b-9039033b89e7" />
+<img width="1280" height="996" alt="image" src="https://github.com/user-attachments/assets/1241b46e-cc84-43be-8732-597928445ab7" />
+<img width="1280" height="952" alt="image" src="https://github.com/user-attachments/assets/8215bf03-72e9-4f01-ae68-4345015d22e4" />
+
+
 # Shop Backend Service
 
-Многомодульный backend-проект под ТЗ: **Ktor + PostgreSQL + Exposed + JWT + Redis + RabbitMQ + Swagger + тесты + Docker + GitHub Actions**.
+Многомодульный backend-проект: **Ktor + PostgreSQL + Exposed + JWT + Redis + RabbitMQ + Swagger + тесты + Docker + GitHub Actions**.
 
 ## Что реализовано
 
@@ -233,19 +242,5 @@ Authorization: Bearer <user-jwt>
 DELETE /orders/{id}
 Authorization: Bearer <user-jwt>
 ```
-
----
-
-## Что ещё можно улучшить
-
-Если захочешь довести проект до прод-уровня, можно добавить:
-- refresh token flow
-- role-based permission middleware
-- optimistic/pessimistic locking для stock
-- idempotency keys для order creation
-- Prometheus / Micrometer
-- real email provider
-- отдельные DTO/request validators
-- integration tests для Redis и RabbitMQ
 
 ---
