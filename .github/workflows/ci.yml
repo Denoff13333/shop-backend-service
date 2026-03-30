@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: shop_db
+          POSTGRES_USER: shop
+          POSTGRES_PASSWORD: shop
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U shop -d shop_db"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+      rabbitmq:
+        image: rabbitmq:3-management-alpine
+        ports:
+          - 5672:5672
+          - 15672:15672
+
+    env:
+      APP_PORT: 8080
+      DB_URL: jdbc:postgresql://localhost:5432/shop_db
+      DB_USER: shop
+      DB_PASSWORD: shop
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      CACHE_TTL_SECONDS: 120
+      RABBITMQ_HOST: localhost
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+      RABBITMQ_QUEUE: order-events
+      JWT_SECRET: ci-secret
+      JWT_ISSUER: shop-service
+      JWT_AUDIENCE: shop-users
+      JWT_REALM: shop-api
+      JWT_EXPIRES_IN_SECONDS: 3600
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: Admin123!
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.14.3
+
+      - name: Build and test
+        run: gradle clean test build --no-daemon
+
+      - name: Archive reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            **/build/reports/tests/**
+            **/build/test-results/**

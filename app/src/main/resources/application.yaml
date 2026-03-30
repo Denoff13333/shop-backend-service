@@ -1,0 +1,33 @@
+ktor:
+  deployment:
+    port: ${APP_PORT:8080}
+  application:
+    modules:
+      - com.example.shop.app.ApplicationKt.module
+
+app:
+  database:
+    jdbcUrl: ${DB_URL:jdbc:postgresql://localhost:5432/shop_db}
+    username: ${DB_USER:shop}
+    password: ${DB_PASSWORD:shop}
+    driverClassName: org.postgresql.Driver
+    maximumPoolSize: 10
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    ttlSeconds: ${CACHE_TTL_SECONDS:300}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    queue: ${RABBITMQ_QUEUE:order-events}
+  jwt:
+    secret: ${JWT_SECRET:super-secret-change-me}
+    issuer: ${JWT_ISSUER:shop-service}
+    audience: ${JWT_AUDIENCE:shop-users}
+    realm: ${JWT_REALM:shop-api}
+    expiresInSeconds: ${JWT_EXPIRES_IN_SECONDS:3600}
+  bootstrap:
+    adminEmail: ${ADMIN_EMAIL:admin@example.com}
+    adminPassword: ${ADMIN_PASSWORD:Admin123!}
